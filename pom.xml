@@ -2,15 +2,72 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.4.2.RELEASE</version>
+	</parent>
 
-    <groupId>org.example</groupId>
-    <artifactId>spring-docker</artifactId>
-    <version>1.0-SNAPSHOT</version>
+	<groupId>org.example</groupId>
+	<artifactId>spring-docker</artifactId>
+	<version>1.0-SNAPSHOT</version>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
-    
+	<properties>
+		<java.version>11</java.version>
+		<docker.maven.plugin.version>0.27.2</docker.maven.plugin.version>
+		<aws.xray.version>2.8.0</aws.xray.version>
+		<aws.sdk.version>1.12.268</aws.sdk.version>
+		<log4j2.version>2.17.0</log4j2.version>
+		<otel.sdk.version>1.13.0</otel.sdk.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+	</properties>
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>2.7.3</version>
+
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>2.7.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>${aws.sdk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+			<version>2.1.8.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-xray-recorder-sdk-slf4j</artifactId>
+			<version>2.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.20</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

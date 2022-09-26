@@ -1,0 +1,31 @@
+info:
+  service:
+    name: @project.artifactId@
+    version: @project.version@
+
+spring:
+  profiles:
+    active: dev-local
+
+springfox:
+  documentation:
+    swaggerUi:
+      baseUrl: /api/admin/internal/documentation
+    openApi:
+      v3:
+        path: /api/admin/internal/documentation/v3/api-docs
+    swagger:
+      v2:
+        path: /api/admin/internal/documentation/v2/api-docs
+
+
+---
+image-upload:
+  s3-bucket: ana-management-images
+  cloudfront-distribution-base-url: https://d8wp2lccw6r09.cloudfront.net
+
+springfox:
+  documentation:
+    enabled: true
+
+
