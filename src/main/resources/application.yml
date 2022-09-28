@@ -9,23 +9,31 @@ spring:
 
 springfox:
   documentation:
+    enabled: true
     swaggerUi:
-      baseUrl: /api/admin/internal/documentation
+      baseUrl: /internal/documentation
     openApi:
       v3:
-        path: /api/admin/internal/documentation/v3/api-docs
+        path: /internal/documentation/v3/api-docs
     swagger:
       v2:
-        path: /api/admin/internal/documentation/v2/api-docs
+        path: /internal/documentation/v2/api-docs
 
 
----
 image-upload:
   s3-bucket: ana-management-images
   cloudfront-distribution-base-url: https://d8wp2lccw6r09.cloudfront.net
 
-springfox:
-  documentation:
-    enabled: true
+jwt:
+  aws:
+    user-pool-id: us-east-1_cpeOLbwXm
+    region: us-east-1
 
+management:
+  endpoint:
+    health:
+      enabled: true
+  health:
+    defaults:
+      enabled: true
 

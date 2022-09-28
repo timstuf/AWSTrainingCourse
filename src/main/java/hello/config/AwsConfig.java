@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.amazonaws.regions.Regions;
+import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
+import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
@@ -22,7 +24,7 @@ public class AwsConfig {
 		log.info("Init AWS configuration");
 	}
 
-//	@Bean
+	//	@Bean
 //	public AWSCognitoIdentityProvider amazonCognitoClient(@Value("${jwt.aws.users.userPoolArn}") String zytaraUserPoolArn) {
 //		return AWSCognitoIdentityProviderClientBuilder
 //				.standard()
@@ -36,6 +38,12 @@ public class AwsConfig {
 //				.withRegion(Arn.fromString(zytaraUserPoolArn).getRegion())
 //				.build();
 //	}
+	@Bean
+	public AWSCognitoIdentityProvider amazonCognitoClient() {
+		return AWSCognitoIdentityProviderClientBuilder
+				.standard()
+				.build();
+	}
 
 	@Bean
 	public AmazonS3 amazonS3Client() {
