@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +23,7 @@ import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 
+import hello.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +34,8 @@ public class AwsCognitoIdTokenProcessor {
 	private static final String ROLE_PREFIX = "ROLE_";
 	private final JwtConfiguration jwtConfiguration;
 	private final ConfigurableJWTProcessor<SecurityContext> configurableJWTProcessor;
+
+	private final UserService userService;
 
 	public Authentication authenticate(HttpServletRequest request) {
 		try {
@@ -46,7 +48,7 @@ public class AwsCognitoIdTokenProcessor {
 				String[] userRoles = getUserRoles(claims);
 				if(username != null) {
 
-					UserPrincipal zytaraUserPrincipal = new UserPrincipal(UUID.randomUUID(), getEmail(claims), username);
+					UserPrincipal zytaraUserPrincipal = getOrCreateUser(username, getEmail(claims));
 					User securityUser = new User(username, "", of());
 					UserDetails userDetails = createUserDetails(username, userRoles);
 
@@ -149,5 +151,17 @@ public class AwsCognitoIdTokenProcessor {
 		return token.startsWith("Bearer ") ? token.substring("Bearer ".length()) : token;
 	}
 
+	private UserPrincipal getOrCreateUser(String username, String email) {
+		hello.entity.User user;
+		UserPrincipal principal;
+		try {
+			user = userService.findByUsername(username);
+			principal = new UserPrincipal(user.getId(), email, username);
+		} catch(Exception e) {
+			user = userService.createUser(email, username);
+			principal = new UserPrincipal(user.getId(), email, username);
+		}
+		return principal;
+	}
 
 }
