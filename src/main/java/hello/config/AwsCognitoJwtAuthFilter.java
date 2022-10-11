@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 @RequiredArgsConstructor
+
 public class AwsCognitoJwtAuthFilter extends OncePerRequestFilter {
 	private final transient AwsCognitoIdTokenProcessor cognitoIdTokenProcessor;
 
@@ -35,14 +36,9 @@ public class AwsCognitoJwtAuthFilter extends OncePerRequestFilter {
 			log.error(error);
 			SecurityContextHolder.clearContext();
 		}
-		addSecurityHeadersToResponse(response);
+
 		filterChain.doFilter(request, response);
 	}
 
-	private void addSecurityHeadersToResponse(HttpServletResponse response) {
-		response.addHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains;");
-		response.addHeader("Content-Security-Policy", "frame-ancestors 'none'; default-src 'self'; script-src 'self'; img-src 'self'; style-src 'self';");
-		response.addHeader("Referrer-Policy", "no-referrer;");
-	}
 }
 

@@ -6,6 +6,8 @@ info:
 spring:
   profiles:
     active: dev-local
+  datasource:
+    jdbc-interceptors: com.amazonaws.xray.sql.postgres.TracingInterceptor
 
 springfox:
   documentation:
@@ -36,4 +38,3 @@ management:
   health:
     defaults:
       enabled: true
-

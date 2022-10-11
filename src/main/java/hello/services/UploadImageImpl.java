@@ -5,12 +5,15 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@XRayEnabled
 public class UploadImageImpl implements UploadImage {
 	private final S3Storage s3Storage;
 

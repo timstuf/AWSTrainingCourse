@@ -5,7 +5,7 @@
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://my-database.cughbpjkssoa.us-east-1.rds.amazonaws.com:5432/postgres</jdbc-url>
+      <jdbc-url>jdbc:postgresql://my-database.cughbpjkssoa.us-east-1.rds.amazonaws.com:5432/my_database</jdbc-url>
       <jdbc-additional-properties>
         <property name="AWS.RdsSigningPort" value="5432" />
         <property name="AWS.RegionId" value="us-east-1" />

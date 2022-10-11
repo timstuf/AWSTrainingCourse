@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.xray.AWSXRay;
+import com.amazonaws.xray.entities.Segment;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jose.shaded.json.JSONArray;
 import com.nimbusds.jwt.JWTClaimsSet;
@@ -38,6 +40,7 @@ public class AwsCognitoIdTokenProcessor {
 	private final UserService userService;
 
 	public Authentication authenticate(HttpServletRequest request) {
+		Segment segment = AWSXRay.beginSegment("authenticationFilterSegment");
 		try {
 			String idToken = request.getHeader(this.jwtConfiguration.getHttpHeader());
 			if(idToken != null) {
@@ -48,18 +51,24 @@ public class AwsCognitoIdTokenProcessor {
 				String[] userRoles = getUserRoles(claims);
 				if(username != null) {
 
-					UserPrincipal zytaraUserPrincipal = getOrCreateUser(username, getEmail(claims));
+					UserPrincipal userPrincipal = getOrCreateUser(username, getEmail(claims));
 					User securityUser = new User(username, "", of());
 					UserDetails userDetails = createUserDetails(username, userRoles);
-
-					return new JwtAuthentication(securityUser, claims, userDetails, zytaraUserPrincipal, idToken);
+					segment.putAnnotation("user_id", userPrincipal.getId().toString());
+					segment.close();
+					return new JwtAuthentication(securityUser, claims, userDetails, userPrincipal, idToken);
 				}
 			}
 		} catch(ParseException e) {
 			log.warn("Token is invalid " + e.getMessage());
+			segment.addException(e);
+
 		} catch(Exception e) {
 			log.warn("Sorry, something went wrong! " + e.getMessage());
+			segment.addException(e);
+
 		}
+		AWSXRay.endSegment();
 		return null;
 	}
 

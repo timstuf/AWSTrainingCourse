@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
+
 import hello.services.UploadImage;
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping(path = "/api/images")
 @RequiredArgsConstructor
+@XRayEnabled
 public class ImageUploadController {
 
 	private final UploadImage uploadImage;
