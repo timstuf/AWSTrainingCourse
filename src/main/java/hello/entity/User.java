@@ -1,6 +1,7 @@
 package hello.entity;
 
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "users")
 
-public class User {
+public class User implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "id")

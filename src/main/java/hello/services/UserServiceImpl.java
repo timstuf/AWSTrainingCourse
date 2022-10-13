@@ -1,5 +1,6 @@
 package hello.services;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.xray.AWSXRay;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Cacheable(value = "userCache")
 	public User findByUsername(String username) {
 		log.info("Finding by username = {}", username);
 		User user;

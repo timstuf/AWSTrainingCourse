@@ -6,9 +6,12 @@ info:
 spring:
   profiles:
     active: dev-local
+  jpa:
+    show-sql: true
   datasource:
     jdbc-interceptors: com.amazonaws.xray.sql.postgres.TracingInterceptor
-
+  redis:
+    host: ${REDIS_HOST}
 springfox:
   documentation:
     enabled: true
